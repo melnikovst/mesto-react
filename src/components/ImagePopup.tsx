@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ICard } from '../utils/utils';
 
 type TProps = {
-  card: { name: string; link: string };
+  card: ICard;
   onClose: () => void;
 };
 

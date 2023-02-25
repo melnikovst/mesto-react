@@ -14,7 +14,7 @@ type TProps = {
   onCardClick: (card: ICard) => void;
   cards: ICard[];
   onCardLike: (card: ICard) => Promise<void>;
-  onCardDelete: (card: ICard) => Promise<void>;
+  onCardDelete: (card: { name: string; link: string }) => Promise<void>;
   isLoading: boolean;
   error: boolean;
   openDeletingPopup: (card: ICard) => void;

@@ -19,10 +19,10 @@ function App() {
     useState<boolean>(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<{
-    name: string;
-    link: string;
-  }>({ name: '', link: '' });
+  const [selectedCard, setSelectedCard] = useState<ICard>({
+    name: '',
+    link: '',
+  });
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<Partial<{ _id: string }>>({});
   const [cards, setCards] = useState<ICard[]>([]);
@@ -30,7 +30,7 @@ function App() {
   const [error, setError] = useState<boolean>(false);
   const [isDeletingPopupOpen, setIsDeletingPopupOpen] =
     useState<boolean>(false);
-  const [cardDel, setCard] = useState<any>({});
+  const [cardDel, setCard] = useState<Partial<ICard>>({});
   const [isDeletedCardLoading, setIsDeletedCardLoading] =
     useState<boolean>(false);
   const [isAddingLoading, setIsAddingLoading] = useState<boolean>(false);
@@ -57,7 +57,7 @@ function App() {
   };
 
   const handleCardLike = async (card: ICard) => {
-    const isLiked = card.likes.some((i) => i._id === _id);
+    const isLiked = card.likes?.some((i) => i._id === _id);
     try {
       const resChangeLikeStatus = await server.changeLikeCardStatus(
         card,

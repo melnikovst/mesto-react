@@ -20,9 +20,9 @@ const Card: FC<TProps> = ({
   onCardLike,
   openDeletingPopup,
 }) => {
-  const isOwn = card.owner._id !== user._id;
+  const isOwn = card.owner?._id !== user._id;
 
-  const isLiked = card.likes.some((i) => i._id === user._id);
+  const isLiked = card.likes?.some((i) => i._id === user._id);
 
   const likeBtnClasses = `card__button ${isLiked ? 'card__button_active' : ''}`;
 
@@ -59,7 +59,7 @@ const Card: FC<TProps> = ({
             className={likeBtnClasses}
             onClick={handleLikeClick}
           ></button>
-          <p className="card__like_amount">{card.likes.length}</p>
+          <p className="card__like_amount">{card.likes?.length}</p>
         </div>
       </div>
     </article>

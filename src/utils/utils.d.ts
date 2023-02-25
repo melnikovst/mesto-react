@@ -1,10 +1,10 @@
 export interface ICard {
-  likes: IUser[];
-  owner: IUser;
-  name: string;
-  link: string;
-  _id: string;
-  createdAt: string;
+  likes?: IUser[];
+  owner?: IUser;
+  name?: string;
+  link?: string;
+  _id?: string;
+  createdAt?: string;
 }
 
 export interface IUser {
