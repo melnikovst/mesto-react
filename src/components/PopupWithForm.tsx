@@ -5,7 +5,7 @@ type TProps = {
   title: string;
   children?: JSX.Element;
   onClose: () => void;
-  onSubmit: any;
+  onSubmit: (e: React.MouseEvent<HTMLFormElement>) => void;
   name: string;
   isOpen: boolean;
   closeByOverlay: (e: React.MouseEvent<HTMLDivElement>) => void;

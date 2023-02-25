@@ -3,7 +3,7 @@ import PopupWithForm from './PopupWithForm';
 
 type TProps = {
   isOpen: boolean;
-  onClose: any;
+  onClose: () => void;
   onCardDelete: () => Promise<void>;
   isDeletedCardLoading: boolean;
   closeByOverlay: (e: React.MouseEvent<HTMLDivElement>) => void;
