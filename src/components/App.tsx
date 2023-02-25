@@ -10,29 +10,38 @@ import { useEffect, useState } from 'react';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import SubmitDeletingCard from './SubmitDeletingCard';
+import { ICard, IUser } from '../utils/utils';
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
-  const [isImageOpen, setIsImageOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-  const [cards, setCards] = useState([]);
-  const [isAvatarLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [isDeletingPopupOpen, setIsDeletingPopupOpen] = useState(false);
-  const [cardDel, setCard] = useState({});
-  const [isDeletedCardLoading, setIsDeletedCardLoading] = useState(false);
-  const [isAddingLoading, setIsAddingLoading] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    useState<boolean>(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] =
+    useState<boolean>(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<{
+    name: string;
+    link: string;
+  }>({ name: '', link: '' });
+  const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<Partial<{ _id: string }>>({});
+  const [cards, setCards] = useState<ICard[]>([]);
+  const [isAvatarLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [isDeletingPopupOpen, setIsDeletingPopupOpen] =
+    useState<boolean>(false);
+  const [cardDel, setCard] = useState<any>({});
+  const [isDeletedCardLoading, setIsDeletedCardLoading] =
+    useState<boolean>(false);
+  const [isAddingLoading, setIsAddingLoading] = useState<boolean>(false);
   const { _id } = currentUser;
 
-  const openDeletingPopup = (card) => {
+  const openDeletingPopup = (card: ICard) => {
     setIsDeletingPopupOpen(true);
     setCard(card);
   };
 
-  const handleAddPlaceSubmit = async (obj) => {
+  const handleAddPlaceSubmit = async (obj: { title: string; link: string }) => {
     setIsAddingLoading(true);
     try {
       const resAdding = await server.addCard(obj);
@@ -47,7 +56,7 @@ function App() {
     }
   };
 
-  const handleCardLike = async (card) => {
+  const handleCardLike = async (card: ICard) => {
     const isLiked = card.likes.some((i) => i._id === _id);
     try {
       const resChangeLikeStatus = await server.changeLikeCardStatus(
@@ -102,16 +111,16 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard({});
+    setTimeout(() => setSelectedCard({ name: '', link: '' }), 300);
     setIsDeletingPopupOpen(false);
   };
 
-  const handleCardClick = (object) => {
+  const handleCardClick = (card: ICard) => {
     setIsImageOpen(true);
-    setSelectedCard(object);
+    setSelectedCard(card);
   };
 
-  const handleEditAvatarClick = (e) => {
+  const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
 
@@ -123,13 +132,13 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const closeByOverlay = (e) => {
-    if (e.target.classList.contains('popup_opened')) {
+  const closeByOverlay = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).classList.contains('popup_opened')) {
       closeAllPopups();
     }
   };
 
-  const handleUpdateUser = async (object) => {
+  const handleUpdateUser = async (object: IUser) => {
     try {
       const resChangingProfile = await server.changeProfile(object);
       setCurrentUser(resChangingProfile);
@@ -139,7 +148,7 @@ function App() {
     }
   };
 
-  const handleUpdateAvatar = async (object) => {
+  const handleUpdateAvatar = async (object: IUser) => {
     setIsLoading(true);
     try {
       const resAvatar = await server.setNewAvatar(object);
@@ -190,7 +199,6 @@ function App() {
           />
           <SubmitDeletingCard
             onClose={closeAllPopups}
-            onOpenDeleting={openDeletingPopup}
             onCardDelete={handleDeleting}
             isDeletedCardLoading={isDeletedCardLoading}
             closeByOverlay={closeByOverlay}

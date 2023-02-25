@@ -1,4 +1,12 @@
-const ImagePopup = ({ card, onClose }) => {
+import { FC } from 'react';
+import { ICard } from '../utils/utils';
+
+type TProps = {
+  card: { name: string; link: string };
+  onClose: () => void;
+};
+
+const ImagePopup: FC<TProps> = ({ card, onClose }) => {
   return Object.keys(card).length !== 0 ? (
     <figure className="popup__image">
       <img

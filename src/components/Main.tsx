@@ -1,24 +1,51 @@
 import updateProfileInfoBtn from '../images/Vector.svg';
 import addCardBtn from '../images/Vector2.svg';
 import Card from './Card';
-import { useContext } from 'react';
+import { FC, useContext } from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import Loader from './Loader';
-import Error from './Error'
+import Error from './Error';
+import { ICard } from '../utils/utils';
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete, isLoading, error, openDeletingPopup }) => {
+type TProps = {
+  onEditProfile: () => void;
+  onAddPlace: () => void;
+  onEditAvatar: () => void;
+  onCardClick: (card: ICard) => void;
+  cards: ICard[];
+  onCardLike: (card: ICard) => Promise<void>;
+  onCardDelete: (card: ICard) => Promise<void>;
+  isLoading: boolean;
+  error: boolean;
+  openDeletingPopup: (card: ICard) => void;
+};
+
+const Main: FC<TProps> = ({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+  isLoading,
+  error,
+  openDeletingPopup,
+}) => {
   const profileContext = useContext(CurrentUserContext);
   const { avatar, name, about } = profileContext;
-  const avatarClasses = `spinner ${isLoading ? "spinner_visible" : ""}`
-  const profileImgClasses = `profile__image ${isLoading ? "profile__image_while_loading" : ""}`;
+  const avatarClasses = `spinner ${isLoading ? 'spinner_visible' : ''}`;
+  const profileImgClasses = `profile__image ${
+    isLoading ? 'profile__image_while_loading' : ''
+  }`;
   console.log(name);
 
   if (error) {
-    return <Error />
+    return <Error />;
   }
 
-  if ((avatar === undefined)) {
-    return <Loader />
+  if (avatar === undefined) {
+    return <Loader />;
   }
 
   return (
@@ -68,15 +95,16 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
       </section>
       <section className="cards">
         {cards.map((card) => {
-          return <Card 
-          onCardClick={onCardClick} 
-          key={card._id} 
-          card={card} 
-          user={profileContext} 
-          onCardLike={onCardLike} 
-          onCardDelete={onCardDelete} 
-          openDeletingPopup={openDeletingPopup} 
-          />;
+          return (
+            <Card
+              onCardClick={onCardClick}
+              key={card._id}
+              card={card}
+              user={profileContext}
+              onCardLike={onCardLike}
+              openDeletingPopup={openDeletingPopup}
+            />
+          );
         })}
       </section>
     </main>

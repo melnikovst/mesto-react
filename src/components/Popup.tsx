@@ -1,8 +1,22 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
-const Popup = ({ children, isOpen, name, onClose, closeByOverlay }) => {
-  const closeByEsc = (evt) => {
-    if (evt.key === 'Escape') {
+type TProps = {
+  children: JSX.Element;
+  isOpen: boolean;
+  name: string;
+  onClose: () => void;
+  closeByOverlay: (e: React.MouseEvent<HTMLDivElement>) => void;
+};
+
+const Popup: FC<TProps> = ({
+  children,
+  isOpen,
+  name,
+  onClose,
+  closeByOverlay,
+}) => {
+  const closeByEsc = (e: { key: string }): void => {
+    if (e.key === 'Escape') {
       onClose();
     }
   };
